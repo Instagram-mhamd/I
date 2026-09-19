@@ -655,6 +655,7 @@
                     Tarage: { title: "مرحباً بكم في حلقة السيدة ميمونة بنت الحارث", teacher: "المعلمة تراجي المصطفى", firebase: { apiKey: "AIzaSyBFVlDDMHMX7hWCCtXFONYqW2BiZW0vygc", authDomain: "tarage-938de.firebaseapp.com", projectId: "tarage-938de", storageBucket: "tarage-938de.firebasestorage.app", messagingSenderId: "860016464257", appId: "1:860016464257:web:aed9b166c5a31ef9839880", measurementId: "G-K4TVR5PS9Q" } }
                 };
                 const profile = pageProfiles[new URLSearchParams(location.search).get('profile')] || pageProfiles.Maad;
+                document.querySelector('.logo span').textContent = profile.title.replace(/^مرحباً بكم في\s*/, '');
                 document.getElementById('welcome-title').textContent = profile.title;
                 document.getElementById('welcome-teacher').textContent = profile.teacher;
                                 const firebaseConfig = profile.firebase;
@@ -1189,7 +1190,7 @@
             for (let i = separatorIndex; i < allRows.length; i++) { if ((allRows[i].classList.contains('separator-row') || allRows[i].classList.contains('summary-row')) && i !== separatorIndex) break; rowsToCapture.push(allRows[i]); }
             if (!rowsToCapture.length) return showToast('لا توجد بيانات', 'warning');
             showToast('جاري الالتقاط...', 'info');
-            const circleName = document.querySelector('.logo span')?.innerText || 'الحلقة'; const teacherName = document.querySelector('.welcome-hero p')?.innerText || 'المعلم';
+            const circleName = profile.title.replace(/^مرحباً بكم في\s*/, ''); const teacherName = profile.teacher;
             let headerHTML = ''; const docData = cachedSnapshot.docs.find(d => d.id === sepId)?.data();
             if (docData) {
                 if (docData.type === 'separator' && docData.frequency === 'daily') { const dateStr = docData.uoi ? docData.uoi.toDate().toLocaleDateString('ar-EG', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) : ''; headerHTML = `<tr style="background-color: #f0fdf4; border-bottom: 2px solid #064e3b;"><td colspan="6" style="padding: 12px; text-align: center; color: #064e3b; background-color: #f0fdf4 !important;"><div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 4px;">${circleName}</div><div style="font-size: 1rem; font-weight: bold; margin-bottom: 8px;">المتابعة اليومية - ${docData.dayLabel || ''}</div><div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">${teacherName}</div><div style="font-size: 0.9rem;">التاريخ: ${dateStr} | عدد الساعات: ${docData.separatorHours || 0}</div></td></tr>`; }
